@@ -1,0 +1,6 @@
+# package
+node_modules/
+
+# file
+.env
+request.rest
