@@ -1,5 +1,5 @@
-# backend-web
-This is the Repo for Back-End Web Code in App My Introvert
+# My Introvert
+"My Introvert" is the name of the Application that we will build, where we use this App to help Introverts from weaknesses that Introverts have, this App will be based on Mobile Interfaces, which is supported by Back-End based Web, and will implement Machine Learning Technology in it.
 
 # Features
 1. Login multilevel
@@ -10,8 +10,6 @@ This is the Repo for Back-End Web Code in App My Introvert
 1. npm start
 2. Or install Package <b>Nodemon</b> globally and run <b>nodemon index</b>
 
-<br />
-
 # Tech Stack
 1. [Express.js](https://expressjs.com) (Framework)
 2. [Express-Session](https://expressjs.com/en/resources/middleware/session.html) (Package for Session Login)
@@ -20,8 +18,6 @@ This is the Repo for Back-End Web Code in App My Introvert
 5. [Dotenv](https://www.npmjs.com/package/dotenv) (Environment Variabel)
 6. [Argon2](https://www.npmjs.com/package/argon2) (Password Hash)
 7. [CORS](https://www.npmjs.com/package/cors) (Policy API Agreement)
-
-<br />
 
 # Endpoin's API
 ### Add User's Endpoint's
