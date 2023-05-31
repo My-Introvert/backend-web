@@ -45,6 +45,8 @@ const Users = db.define(
         notEmpty: true,
       },
     },
+    image: DataTypes.STRING,
+    urlImage: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
       allowNull: false,

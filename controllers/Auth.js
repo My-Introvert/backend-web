@@ -16,11 +16,13 @@ export const Login = async (req, res) => {
   // Set session login
   req.session.userId = user.uuid;
   const uuid = user.uuid;
+  const image = user.image;
+  const urlImage = user.urlImage;
   const firstName = user.firstName;
   const lastName = user.lastName;
   const email = user.email;
   const role = user.role;
-  res.status(200).json({ uuid, firstName, lastName, email, role });
+  res.status(200).json({ uuid, image, urlImage, firstName, lastName, email, role });
 };
 
 export const Me = async (req, res) => {
@@ -28,7 +30,7 @@ export const Me = async (req, res) => {
     return res.status(401).json({ msg: "Mohon masuk ke akun Kamu!" });
   }
   const user = await User.findOne({
-    attributes: ["uuid", "firstName", "lastName", "email", "role"],
+    attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "role"],
     where: {
       uuid: req.session.userId,
     },

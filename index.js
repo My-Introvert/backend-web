@@ -1,6 +1,7 @@
-import express from "express";
 import cors from "cors";
+import express, { application } from "express";
 import session from "express-session";
+import fileUpload from "express-fileupload";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
 import SquelizeStore from "connect-session-sequelize";
@@ -45,6 +46,8 @@ app.use(
 );
 
 app.use(express.json());
+app.use(fileUpload());
+app.use(express.static("public"));
 app.use(UserRoute);
 app.use(NoteRoute);
 app.use(AuthRoute);
