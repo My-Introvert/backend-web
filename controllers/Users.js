@@ -99,11 +99,10 @@ export const updateUser = async (req, res) => {
     if (!allowedTypeImage.includes(ext.toLocaleLowerCase())) return res.status(422).json({ msg: "Ekstensi gambar harus, Jpg, Jpeg, Png, Gif" });
     // Check image size
     if (imageSize > 2000000) return res.status(422).json({ msg: "Ukuran gambar harus dibawah 2MB" });
+
     // Remove image from folder public/images
-    if (User.image === user.image) {
-      const imagePath = `./public/images/${user.image}`;
-      fs.unlinkSync(imagePath);
-    }
+    const imagePath = `./public/images/${user.image}`;
+    fs.unlinkSync(imagePath);
     // Move image
     image.mv(`./public/images/${imageName}`, (err) => {
       if (err) return res.status(500).json({ msg: err.message });
