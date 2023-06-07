@@ -11,7 +11,7 @@
 
 # Run the App
 1. `npm start` or install Package <b>Nodemon</b> globally and run `nodemon index`
-2. For created account <b>Admin Default</b> used `npm run create-admin` (File location ./config/defaultUser.js)
+2. For created account <b>Admin Default</b> used `npm run create-admin` File location to "<b>./config/defaultUser.js</b>"
 
 # Tech Stack
 1. [Express.js](https://expressjs.com) (Framework)
