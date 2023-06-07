@@ -4,8 +4,8 @@ import Users from "./UserModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Notes = db.define(
-  "notes",
+const Blogs = db.define(
+  "blogs",
   {
     uuid: {
       type: DataTypes.STRING,
@@ -20,17 +20,19 @@ const Notes = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
-        len: [5, 200],
+        len: [5, 300],
       },
     },
-    sumarry: {
-      type: DataTypes.STRING,
+    blog: {
+      type: DataTypes.TEXT,
       allowNull: false,
       validate: {
         notEmpty: true,
-        len: [15, 1500],
+        len: [100, 10000],
       },
     },
+    image: DataTypes.STRING,
+    urlImage: DataTypes.STRING,
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -44,7 +46,7 @@ const Notes = db.define(
   }
 );
 
-Users.hasMany(Notes);
-Notes.belongsTo(Users, { foreignKey: "userId" });
+Users.hasMany(Blogs);
+Blogs.belongsTo(Users, { foreignKey: "userId" });
 
-export default Notes;
+export default Blogs;

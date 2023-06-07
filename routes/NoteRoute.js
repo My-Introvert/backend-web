@@ -5,9 +5,9 @@ import { verifyUser } from "../middleware/AuthUser.js";
 const router = express.Router();
 
 router.get("/notes", verifyUser, getNotes);
-router.get("/note/:id", verifyUser, getNoteById);
-router.post("/note", verifyUser, createNote);
-router.patch("/note/:id", verifyUser, updateNote);
-router.delete("/note/:id", verifyUser, deleteNote);
+router.get("/notes/:id", verifyUser, getNoteById);
+router.post("/notes", verifyUser, createNote);
+router.patch("/notes/:id", verifyUser, updateNote);
+router.delete("/notes/:id", verifyUser, deleteNote);
 
 export default router;

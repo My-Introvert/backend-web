@@ -45,14 +45,14 @@ export const createUser = async (req, res) => {
   const imageSize = image.data.length;
   const ext = path.extname(image.name);
   const imageName = image.md5 + ext;
-  const urlImage = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+  const urlImage = `${req.protocol}://${req.get("host")}/images/users/${imageName}`;
   const allowedTypeImage = [".jpg", ".jpeg", ".png", ".gif"];
   // Check type image
   if (!allowedTypeImage.includes(ext.toLocaleLowerCase())) return res.status(422).json({ msg: "Ekstensi gambar harus, Jpg, Jpeg, Png, Gif" });
   // Check image size
   if (imageSize > 2000000) return res.status(422).json({ msg: "Ukuran gambar harus dibawah 2MB" });
   // Move image
-  image.mv(`./public/images/${imageName}`, (err) => {
+  image.mv(`./public/images/users/${imageName}`, (err) => {
     if (err) return res.status(500).json({ msg: err.message });
   });
 
@@ -101,15 +101,15 @@ export const updateUser = async (req, res) => {
     if (imageSize > 2000000) return res.status(422).json({ msg: "Ukuran gambar harus dibawah 2MB" });
 
     // Remove image from folder public/images
-    const imagePath = `./public/images/${user.image}`;
+    const imagePath = `./public/images/users/${user.image}`;
     fs.unlinkSync(imagePath);
     // Move image
-    image.mv(`./public/images/${imageName}`, (err) => {
+    image.mv(`./public/images/users/${imageName}`, (err) => {
       if (err) return res.status(500).json({ msg: err.message });
     });
   }
 
-  const urlImage = `${req.protocol}://${req.get("host")}/images/${imageName}`;
+  const urlImage = `${req.protocol}://${req.get("host")}/images/users/${imageName}`;
   // Req.body other data from user
   const { firstName, lastName, email, password, confPassword, role } = req.body;
 
@@ -160,7 +160,7 @@ export const deleteUser = async (req, res) => {
   //   If exist user, deleted data
   try {
     // Remove image from folder public/images
-    const imagePath = `./public/images/${user.image}`;
+    const imagePath = `./public/images/users/${user.image}`;
     fs.unlinkSync(imagePath);
 
     await User.destroy({

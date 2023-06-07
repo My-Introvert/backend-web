@@ -1,15 +1,20 @@
-import cors from "cors";
-import express, { application } from "express";
+import express from "express";
 import session from "express-session";
 import fileUpload from "express-fileupload";
+import SquelizeStore from "connect-session-sequelize";
+import cors from "cors";
 import dotenv from "dotenv";
 import db from "./config/Database.js";
-import SquelizeStore from "connect-session-sequelize";
+
+// Route
 import UserRoute from "./routes/UserRoute.js";
 import NoteRoute from "./routes/NoteRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
-dotenv.config();
+import BlogRoute from "./routes/BlogRoute.js";
+import BookRoute from "./routes/BookRoute.js";
+import VideoRoute from "./routes/VideoRoute.js";
 
+dotenv.config();
 const app = express();
 
 // Save session to database
@@ -18,9 +23,12 @@ const store = new sessionStore({
   db: db,
 });
 
-// Sync Database or Create table in database
+//  For ALTER TABLE to Sync Columns
+// db.sync({ alter: true });
+
+// Sync Database or Create all new Table in database
 // (async () => {
-//   await db.sync();
+//   await db.sync({ force: true });
 // })();
 
 // Sync or Create tabel session on database
@@ -41,7 +49,7 @@ app.use(
 app.use(
   cors({
     credentials: true,
-    origin: process.env.APP_PROTOCOL_FE + process.env.APP_HOSTNAME_FE + ":" + process.env.APP_PORT_FE,
+    origin: process.env.CORS_ORIGIN_1,
   })
 );
 
@@ -51,6 +59,9 @@ app.use(express.static("public"));
 app.use(UserRoute);
 app.use(NoteRoute);
 app.use(AuthRoute);
+app.use(BlogRoute);
+app.use(BookRoute);
+app.use(VideoRoute);
 
 app.listen(process.env.APP_PORT_BE, () => {
   console.log(`Server up and running in Port ${process.env.APP_PORT_BE}`);
