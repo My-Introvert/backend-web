@@ -10,8 +10,8 @@
 6. Added CRUD Blog Content.
 
 # Run the App
-1. npm start or install Package <b>Nodemon</b> globally and run <b>nodemon index</b>
-2. For created account Admin Default used "npm run create-admin" (File location ./config/defaultUser.js)
+1. `npm start` or install Package <b>Nodemon</b> globally and run `nodemon index`
+2. For created account <b>Admin Default</b> used `npm run create-admin` (File location ./config/defaultUser.js)
 
 # Tech Stack
 1. [Express.js](https://expressjs.com) (Framework)
@@ -22,25 +22,6 @@
 6. [Argon2](https://www.npmjs.com/package/argon2) (Password Hash)
 7. [CORS](https://www.npmjs.com/package/cors) (Policy API Agreement)
 
-# Endpoin's API
-### Add User's Endpoint's
-1. POST - http://localhost:5000/user (Endpoin Add User)
-2. GET - http://localhost:5000/users (Endpoin Get All User)
-3. GET - http://localhost:5000/user/:id (Endpoin Get Single User)
-4. PATCH - http://localhost:5000/user (Endpoin Update User)
-5. DELETE - http://localhost:5000/user/:id (Endpoin Deleted User)
-
-### Login Endpoint's
-1. POST - http://localhost:5000/login (Endpoin Login User)
-2. GET - http://localhost:5000/me (Endpoin Get Info User Logged)
-3. DELETE - http://localhost:5000/logout (Endpoint Usesr Loggout)
-
-### Add Daily Note's Endpoint's
-1. POST - http://localhost:5000/note (Endpoint Add Note)
-2. GET - http://localhost:5000/notes (Endpoin Get All Notes)
-3. GET http://localhost:5000/note/:id (Endpoin Get Single Note)
-4. PATCH http://localhost:5000/note/:id (Endpoint Update Note)
-5. DELETE http://localhost:5000/note/:id (Endpoint Deleted Note)
 
 
 
