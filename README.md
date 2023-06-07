@@ -3,12 +3,15 @@
 
 # Features
 1. Login multilevel
-2. Add user (with Role : Admin, Editor, User)
-3. Add daily notes
+2. Added User (with Role : Admin, Editor, User)
+3. Added Daily Notes.
+4. Added CRUD Video Content.
+5. Added CRUD Book Content.
+6. Added CRUD Blog Content.
 
 # Run the App
-1. npm start
-2. Or install Package <b>Nodemon</b> globally and run <b>nodemon index</b>
+1. npm start or install Package <b>Nodemon</b> globally and run <b>nodemon index</b>
+2. For created account Admin Default used "npm run create-admin" (File location ./config/defaultUser.js)
 
 # Tech Stack
 1. [Express.js](https://expressjs.com) (Framework)
