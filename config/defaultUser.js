@@ -15,6 +15,7 @@ const accountAdmin = {
   password: await argon2.hash("123456"),
   confPassword: await argon2.hash("123456"),
   role: "admin",
+  label: "not-label",
   image: imageName,
   urlImage: urlImageDefault,
 };

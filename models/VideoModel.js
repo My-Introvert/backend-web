@@ -39,6 +39,7 @@ const Videos = db.define(
         len: [5, 2000],
       },
     },
+    label: DataTypes.STRING,
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

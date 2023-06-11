@@ -9,24 +9,24 @@ export const getBooks = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Book.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy"],
+        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["firstName", "lastName", "email", "role", "label"],
           },
         ],
       });
     } else {
       response = await Book.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy"],
+        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
         where: {
           userId: req.userId,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["firstName", "lastName", "email", "label"],
           },
         ],
       });
@@ -49,27 +49,27 @@ export const getBookById = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Book.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy"],
+        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
         where: {
           id: book.id,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["firstName", "lastName", "email", "role", "label"],
           },
         ],
       });
     } else {
       response = await Book.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy"],
+        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
         where: {
           [Op.and]: [{ id: book.id }, { userId: req.userId }],
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["firstName", "lastName", "email", "label"],
           },
         ],
       });
@@ -91,7 +91,7 @@ export const createBook = async (req, res) => {
 
   if (req.files === null || req.files === "") return res.status(400).json({ msg: "Gambar tidak boleh kosong" });
 
-  const { title, sumarry, urlBuy } = req.body;
+  const { title, sumarry, urlBuy, label } = req.body;
 
   // image settings
   const image = req.files.image;
@@ -116,6 +116,7 @@ export const createBook = async (req, res) => {
       urlBuy: urlBuy,
       image: imageName,
       urlImage: urlImage,
+      label: label,
       userId: req.userId,
     });
     res.status(201).json({ msg: "Kamu berhasil unggah Buku" });
@@ -159,12 +160,12 @@ export const updateBook = async (req, res) => {
   }
 
   const urlImage = `${req.protocol}://${req.get("host")}/images/books/${imageName}`;
-  const { title, sumarry, urlBuy } = req.body;
+  const { title, sumarry, urlBuy, label } = req.body;
 
   try {
     if (req.role === "admin") {
       await Book.update(
-        { title: title, sumarry: sumarry, urlBuy: urlBuy, image: imageName, urlImage: urlImage },
+        { title: title, sumarry: sumarry, urlBuy: urlBuy, image: imageName, urlImage: urlImage, label: label },
         {
           where: {
             id: book.id,
@@ -174,7 +175,7 @@ export const updateBook = async (req, res) => {
     } else {
       if (req.userId !== book.userId) return res.status(403).json({ msg: "Akses terlarang" });
       await Book.update(
-        { title: title, sumarry: sumarry, urlBuy: urlBuy, image: imageName, urlImage: urlImage },
+        { title: title, sumarry: sumarry, urlBuy: urlBuy, image: imageName, urlImage: urlImage, label: label },
         {
           where: {
             [Op.and]: [{ id: book.id }, { userId: req.userId }],

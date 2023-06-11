@@ -7,24 +7,24 @@ export const getVideos = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Video.findAll({
-        attributes: ["uuid", "title", "sumarry", "embededUrl"],
+        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["firstName", "lastName", "email", "role", "label"],
           },
         ],
       });
     } else {
       response = await Video.findAll({
-        attributes: ["uuid", "title", "sumarry", "embededUrl"],
+        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
         where: {
           userId: req.userId,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["firstName", "lastName", "email", "label"],
           },
         ],
       });
@@ -47,27 +47,27 @@ export const getVideoById = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Video.findOne({
-        attributes: ["uuid", "title", "sumarry", "embededUrl"],
+        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
         where: {
           id: video.id,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["firstName", "lastName", "email", "role", "label"],
           },
         ],
       });
     } else {
       response = await Video.findOne({
-        attributes: ["uuid", "title", "sumarry", "embededUrl"],
+        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
         where: {
           [Op.and]: [{ id: video.id }, { userId: req.userId }],
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["firstName", "lastName", "email", "label"],
           },
         ],
       });
@@ -87,12 +87,13 @@ export const createVideo = async (req, res) => {
     },
   });
 
-  const { title, sumarry, embededUrl } = req.body;
+  const { title, sumarry, embededUrl, label } = req.body;
   try {
     await Video.create({
       title: title,
       sumarry: sumarry,
       embededUrl: embededUrl,
+      label: label,
       userId: req.userId,
     });
     res.status(201).json({ msg: "Kamu berhasil unggah Vidio" });
@@ -110,10 +111,10 @@ export const updateVideo = async (req, res) => {
     });
     if (!video) return res.status(404).json({ msg: "ID Vidio tidak ditemukan" });
 
-    const { title, sumarry, embededUrl } = req.body;
+    const { title, sumarry, embededUrl, label } = req.body;
     if (req.role === "admin") {
       await Video.update(
-        { title, sumarry, embededUrl },
+        { title, sumarry, embededUrl, label },
         {
           where: {
             id: video.id,
@@ -123,7 +124,7 @@ export const updateVideo = async (req, res) => {
     } else {
       if (req.userId !== video.userId) return res.status(403).json({ msg: "Akses terlarang" });
       await Video.update(
-        { title, sumarry, embededUrl },
+        { title, sumarry, embededUrl, label },
         {
           where: {
             [Op.and]: [{ id: video.id }, { userId: req.userId }],

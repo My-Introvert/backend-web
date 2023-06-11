@@ -9,24 +9,24 @@ export const getBlogs = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Blog.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "blog"],
+        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["urlImage", "firstName", "lastName", "email", "role"],
           },
         ],
       });
     } else {
       response = await Blog.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "blog"],
+        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
         where: {
           userId: req.userId,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["urlImage", "firstName", "lastName", "email"],
           },
         ],
       });
@@ -49,27 +49,27 @@ export const getBlogById = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Blog.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "blog"],
+        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
         where: {
           id: blog.id,
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email", "role"],
+            attributes: ["urlImage", "firstName", "lastName", "email", "role"],
           },
         ],
       });
     } else {
       response = await Blog.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "blog"],
+        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
         where: {
           [Op.and]: [{ id: blog.id }, { userId: req.userId }],
         },
         include: [
           {
             model: User,
-            attributes: ["firstName", "lastName", "email"],
+            attributes: ["urlImage", "firstName", "lastName", "email"],
           },
         ],
       });
@@ -91,7 +91,7 @@ export const createBlog = async (req, res) => {
 
   if (req.files === null || req.files === "") return res.status(400).json({ msg: "Gambar tidak boleh kosong" });
 
-  const { title, blog } = req.body;
+  const { title, label, sumarry, blog } = req.body;
   // image settings
   const image = req.files.image;
   const imageSize = image.data.length;
@@ -111,6 +111,8 @@ export const createBlog = async (req, res) => {
   try {
     await Blog.create({
       title: title,
+      label: label,
+      sumarry: sumarry,
       blog: blog,
       image: imageName,
       urlImage: urlImage,
@@ -157,12 +159,12 @@ export const updateBlog = async (req, res) => {
   }
 
   const urlImage = `${req.protocol}://${req.get("host")}/images/blogs/${imageName}`;
-  const { title, blog } = req.body;
+  const { title, label, sumarry, blog } = req.body;
 
   try {
     if (req.role === "admin") {
       await Blog.update(
-        { title: title, blog: blog, image: imageName, urlImage: urlImage },
+        { title: title, label: label, sumarry: sumarry, blog: blog, image: imageName, urlImage: urlImage },
         {
           where: {
             id: article.id,
@@ -172,7 +174,7 @@ export const updateBlog = async (req, res) => {
     } else {
       if (req.userId !== article.userId) return res.status(403).json({ msg: "Akses terlarang" });
       await Blog.update(
-        { title: title, blog: blog, image: imageName, urlImage: urlImage },
+        { title: title, label: label, sumarry: sumarry, blog: blog, image: imageName, urlImage: urlImage },
         {
           where: {
             [Op.and]: [{ id: article.id }, { userId: req.userId }],

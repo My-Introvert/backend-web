@@ -6,8 +6,8 @@ const router = express.Router();
 
 router.get("/users", verifyUser, isAdmin, getUsers);
 router.get("/users/:id", verifyUser, isAdmin, getUserById);
-router.post("/users", verifyUser, isAdmin, createUser);
-router.patch("/users/:id", verifyUser, isAdmin, updateUser);
+router.post("/users", createUser);
+router.patch("/users/:id", verifyUser, updateUser);
 router.delete("/users/:id", verifyUser, isAdmin, deleteUser);
 
 export default router;

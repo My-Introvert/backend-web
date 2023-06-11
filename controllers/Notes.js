@@ -7,7 +7,7 @@ export const getNotes = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Note.findAll({
-        attributes: ["uuid", "title", "sumarry"],
+        attributes: ["uuid", "title", "sumarry", "createdAt"],
         include: [
           {
             model: User,
@@ -17,7 +17,7 @@ export const getNotes = async (req, res) => {
       });
     } else {
       response = await Note.findAll({
-        attributes: ["uuid", "title", "sumarry"],
+        attributes: ["uuid", "title", "sumarry", "createdAt"],
         where: {
           userId: req.userId,
         },
@@ -47,7 +47,7 @@ export const getNoteById = async (req, res) => {
     let response;
     if (req.role === "admin") {
       response = await Note.findOne({
-        attributes: ["uuid", "title", "sumarry"],
+        attributes: ["uuid", "title", "sumarry", "createdAt"],
         where: {
           id: note.id,
         },
@@ -60,7 +60,7 @@ export const getNoteById = async (req, res) => {
       });
     } else {
       response = await Note.findOne({
-        attributes: ["uuid", "title", "sumarry"],
+        attributes: ["uuid", "title", "sumarry", "createdAt"],
         where: {
           [Op.and]: [{ id: note.id }, { userId: req.userId }],
         },

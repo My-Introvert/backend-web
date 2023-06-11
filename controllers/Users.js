@@ -6,7 +6,7 @@ import fs from "fs";
 export const getUsers = async (req, res) => {
   try {
     const response = await User.findAll({
-      attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "role"],
+      attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "label", "role"],
     });
     res.status(200).json(response);
   } catch (error) {
@@ -26,7 +26,7 @@ export const getUserById = async (req, res) => {
 
   try {
     const response = await User.findOne({
-      attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "role"],
+      attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "label", "role"],
       where: {
         uuid: req.params.id,
       },
@@ -39,7 +39,23 @@ export const getUserById = async (req, res) => {
 
 export const createUser = async (req, res) => {
   if (req.files === null || req.files === "") return res.status(400).json({ msg: "Gambar tidak boleh kosong" });
-  const { firstName, lastName, email, password, confPassword, role } = req.body;
+  const { firstName, lastName, email, password, confPassword } = req.body;
+
+  // Check if Role === Null
+  let role;
+  if (req.body.role === "" || req.body.role === null) {
+    role = "user";
+  } else {
+    role = req.body.role;
+  }
+  // Check if Label === Null
+  let label;
+  if (req.body.label === "" || req.body.label === null) {
+    label = "not-label";
+  } else {
+    label = req.body.label;
+  }
+
   // image settings
   const image = req.files.image;
   const imageSize = image.data.length;
@@ -68,6 +84,7 @@ export const createUser = async (req, res) => {
       password: hashPassword,
       image: imageName,
       urlImage: urlImage,
+      label: label,
       role: role,
     });
     res.status(201).json({ msg: `${firstName}, berhasil terdaftar` });
@@ -100,18 +117,31 @@ export const updateUser = async (req, res) => {
     // Check image size
     if (imageSize > 2000000) return res.status(422).json({ msg: "Ukuran gambar harus dibawah 2MB" });
 
-    // Remove image from folder public/images
-    const imagePath = `./public/images/users/${user.image}`;
-    fs.unlinkSync(imagePath);
-    // Move image
-    image.mv(`./public/images/users/${imageName}`, (err) => {
-      if (err) return res.status(500).json({ msg: err.message });
-    });
+    if (user.image === "user-default.png") {
+      // Move image
+      image.mv(`./public/images/users/${imageName}`, (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+      });
+    }
+    if (user.image !== User.image) {
+      // Move image
+      image.mv(`./public/images/users/${imageName}`, (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+      });
+    } else {
+      // Move image
+      image.mv(`./public/images/users/${imageName}`, (err) => {
+        if (err) return res.status(500).json({ msg: err.message });
+      });
+      // Remove image from folder public/images
+      const imagePath = `./public/images/users/${user.image}`;
+      fs.unlinkSync(imagePath);
+    }
   }
 
   const urlImage = `${req.protocol}://${req.get("host")}/images/users/${imageName}`;
   // Req.body other data from user
-  const { firstName, lastName, email, password, confPassword, role } = req.body;
+  const { firstName, lastName, email, password, confPassword, label, role } = req.body;
 
   let hashPassword;
   if (password === "" || password === null) {
@@ -133,6 +163,7 @@ export const updateUser = async (req, res) => {
         password: hashPassword,
         image: imageName,
         urlImage: urlImage,
+        label: label,
         role: role,
       },
       {

@@ -33,6 +33,7 @@ const Users = db.define(
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         notEmpty: true,
         isEmail: true,
@@ -45,8 +46,15 @@ const Users = db.define(
         notEmpty: true,
       },
     },
-    image: DataTypes.STRING,
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        notEmpty: false,
+      },
+    },
     urlImage: DataTypes.STRING,
+    label: DataTypes.STRING,
     role: {
       type: DataTypes.STRING,
       allowNull: false,

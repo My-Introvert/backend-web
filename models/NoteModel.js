@@ -31,6 +31,7 @@ const Notes = db.define(
         len: [15, 1500],
       },
     },
+    label: DataTypes.STRING,
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

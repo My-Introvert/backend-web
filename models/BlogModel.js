@@ -23,6 +23,14 @@ const Blogs = db.define(
         len: [5, 300],
       },
     },
+    sumarry: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [50, 200],
+      },
+    },
     blog: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -33,6 +41,7 @@ const Blogs = db.define(
     },
     image: DataTypes.STRING,
     urlImage: DataTypes.STRING,
+    label: DataTypes.STRING,
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,

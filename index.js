@@ -13,6 +13,7 @@ import AuthRoute from "./routes/AuthRoute.js";
 import BlogRoute from "./routes/BlogRoute.js";
 import BookRoute from "./routes/BookRoute.js";
 import VideoRoute from "./routes/VideoRoute.js";
+import Quesioner from "./routes/QuesionerRoute.js";
 
 dotenv.config();
 const app = express();
@@ -62,6 +63,7 @@ app.use(AuthRoute);
 app.use(BlogRoute);
 app.use(BookRoute);
 app.use(VideoRoute);
+app.use(Quesioner);
 
 app.listen(process.env.APP_PORT_BE, () => {
   console.log(`Server up and running in Port ${process.env.APP_PORT_BE}`);

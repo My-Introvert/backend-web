@@ -36,10 +36,12 @@ const Books = db.define(
       allowNull: false,
       validate: {
         notEmpty: true,
+        isUrl: true,
       },
     },
     image: DataTypes.STRING,
     urlImage: DataTypes.STRING,
+    label: DataTypes.STRING,
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
