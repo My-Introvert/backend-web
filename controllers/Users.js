@@ -7,6 +7,7 @@ export const getUsers = async (req, res) => {
   try {
     const response = await User.findAll({
       attributes: ["uuid", "image", "urlImage", "firstName", "lastName", "email", "label", "role"],
+      order: [["createdAt", "DESC"]],
     });
     res.status(200).json(response);
   } catch (error) {

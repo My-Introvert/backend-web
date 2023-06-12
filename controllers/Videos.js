@@ -7,6 +7,7 @@ export const getVideos = async (req, res) => {
     let response;
     response = await Video.findAll({
       attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,

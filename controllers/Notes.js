@@ -8,6 +8,7 @@ export const getNotes = async (req, res) => {
     if (req.role === "admin") {
       response = await Note.findAll({
         attributes: ["uuid", "title", "sumarry", "createdAt"],
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: User,

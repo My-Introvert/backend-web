@@ -8,6 +8,7 @@ export const getQuesioners = async (req, res) => {
     if (req.role === "admin") {
       response = await Quesioner.findAll({
         attributes: ["uuid", "yourIntrovert", "levelIntrovert", "age", "gender", "status", "publicSpeaking", "leadership", "meetStrangers", "crowd", "oldFriends", "onlineActivities", "offlineActivities", "createdAt"],
+        order: [["createdAt", "DESC"]],
         include: [
           {
             model: User,
@@ -18,6 +19,7 @@ export const getQuesioners = async (req, res) => {
     } else {
       response = await Quesioner.findAll({
         attributes: ["uuid", "yourIntrovert", "levelIntrovert", "age", "gender", "status", "publicSpeaking", "leadership", "meetStrangers", "crowd", "oldFriends", "onlineActivities", "offlineActivities", "createdAt"],
+        order: [["createdAt", "DESC"]],
         where: {
           userId: req.userId,
         },

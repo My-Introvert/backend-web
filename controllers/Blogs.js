@@ -9,6 +9,7 @@ export const getBlogs = async (req, res) => {
     let response;
     response = await Blog.findAll({
       attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,

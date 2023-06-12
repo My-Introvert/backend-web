@@ -9,6 +9,7 @@ export const getBooks = async (req, res) => {
     let response;
     response = await Book.findAll({
       attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: User,
