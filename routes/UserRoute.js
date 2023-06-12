@@ -5,7 +5,7 @@ import { verifyUser, isAdmin } from "../middleware/AuthUser.js";
 const router = express.Router();
 
 router.get("/users", verifyUser, isAdmin, getUsers);
-router.get("/users/:id", verifyUser, isAdmin, getUserById);
+router.get("/users/:id", verifyUser, getUserById);
 router.post("/users", createUser);
 router.patch("/users/:id", verifyUser, updateUser);
 router.delete("/users/:id", verifyUser, isAdmin, deleteUser);

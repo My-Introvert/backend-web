@@ -7,30 +7,15 @@ import fs from "fs";
 export const getBlogs = async (req, res) => {
   try {
     let response;
-    if (req.role === "admin") {
-      response = await Blog.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
-        include: [
-          {
-            model: User,
-            attributes: ["urlImage", "firstName", "lastName", "email", "role"],
-          },
-        ],
-      });
-    } else {
-      response = await Blog.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
-        where: {
-          userId: req.userId,
+    response = await Blog.findAll({
+      attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
+      include: [
+        {
+          model: User,
+          attributes: ["urlImage", "firstName", "lastName", "email", "role"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["urlImage", "firstName", "lastName", "email"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -47,33 +32,18 @@ export const getBlogById = async (req, res) => {
     if (!blog) return res.status(404).json({ msg: "ID Blog tidak ditemukan" });
 
     let response;
-    if (req.role === "admin") {
-      response = await Blog.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
-        where: {
-          id: blog.id,
+    response = await Blog.findOne({
+      attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
+      where: {
+        id: blog.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["urlImage", "firstName", "lastName", "email", "role"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["urlImage", "firstName", "lastName", "email", "role"],
-          },
-        ],
-      });
-    } else {
-      response = await Blog.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "label", "sumarry", "blog"],
-        where: {
-          [Op.and]: [{ id: blog.id }, { userId: req.userId }],
-        },
-        include: [
-          {
-            model: User,
-            attributes: ["urlImage", "firstName", "lastName", "email"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });

@@ -7,30 +7,15 @@ import fs from "fs";
 export const getBooks = async (req, res) => {
   try {
     let response;
-    if (req.role === "admin") {
-      response = await Book.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "role", "label"],
-          },
-        ],
-      });
-    } else {
-      response = await Book.findAll({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
-        where: {
-          userId: req.userId,
+    response = await Book.findAll({
+      attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "lastName", "email", "role", "label"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "label"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -47,33 +32,18 @@ export const getBookById = async (req, res) => {
     if (!book) return res.status(404).json({ msg: "ID Buku tidak ditemukan" });
 
     let response;
-    if (req.role === "admin") {
-      response = await Book.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
-        where: {
-          id: book.id,
+    response = await Book.findOne({
+      attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
+      where: {
+        id: book.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "lastName", "email", "role", "label"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "role", "label"],
-          },
-        ],
-      });
-    } else {
-      response = await Book.findOne({
-        attributes: ["uuid", "image", "urlImage", "title", "sumarry", "urlBuy", "label"],
-        where: {
-          [Op.and]: [{ id: book.id }, { userId: req.userId }],
-        },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "label"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });

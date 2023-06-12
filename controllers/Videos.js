@@ -5,30 +5,15 @@ import { Op } from "sequelize";
 export const getVideos = async (req, res) => {
   try {
     let response;
-    if (req.role === "admin") {
-      response = await Video.findAll({
-        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "role", "label"],
-          },
-        ],
-      });
-    } else {
-      response = await Video.findAll({
-        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
-        where: {
-          userId: req.userId,
+    response = await Video.findAll({
+      attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "lastName", "email", "role", "label"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "label"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });
@@ -45,33 +30,18 @@ export const getVideoById = async (req, res) => {
     if (!video) return res.status(404).json({ msg: "ID Vidio tidak ditemukan" });
 
     let response;
-    if (req.role === "admin") {
-      response = await Video.findOne({
-        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
-        where: {
-          id: video.id,
+    response = await Video.findOne({
+      attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
+      where: {
+        id: video.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["firstName", "lastName", "email", "role", "label"],
         },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "role", "label"],
-          },
-        ],
-      });
-    } else {
-      response = await Video.findOne({
-        attributes: ["uuid", "title", "sumarry", "embededUrl", "label"],
-        where: {
-          [Op.and]: [{ id: video.id }, { userId: req.userId }],
-        },
-        include: [
-          {
-            model: User,
-            attributes: ["firstName", "lastName", "email", "label"],
-          },
-        ],
-      });
-    }
+      ],
+    });
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json({ msg: error.message });

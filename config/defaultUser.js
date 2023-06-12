@@ -10,11 +10,22 @@ const urlImageDefault = `${process.env.APP_PROTOCOL_BE + process.env.APP_HOSTNAM
 // ================ Default Account =====================
 const accountAdmin = {
   firstName: "Admin",
-  lastName: "Default",
+  lastName: "Demo",
   email: "admin@gmail.com",
   password: await argon2.hash("123456"),
   confPassword: await argon2.hash("123456"),
   role: "admin",
+  label: "not-label",
+  image: imageName,
+  urlImage: urlImageDefault,
+};
+const accountUser = {
+  firstName: "User",
+  lastName: "Demo",
+  email: "user@gmail.com",
+  password: await argon2.hash("123456"),
+  confPassword: await argon2.hash("123456"),
+  role: "user",
   label: "not-label",
   image: imageName,
   urlImage: urlImageDefault,
@@ -36,3 +47,4 @@ setTimeout(() => {
 }, 3000);
 
 InsetDataToTable(Users, accountAdmin);
+InsetDataToTable(Users, accountUser);
